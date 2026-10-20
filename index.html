@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaseNegocio · Cotizá, organizá y vendé.</title>
+    <style>
+        /* Variables de color para fácil personalización */
+        :root {
+            --primary-color: #4F46E5; /* Puedes cambiar este color al de la marca real */
+            --primary-hover: #4338CA;
+            --text-dark: #1F2937;
+            --text-gray: #4B5563;
+            --bg-light: #F9FAFB;
+            --bg-white: #FFFFFF;
+            --border-color: #E5E7EB;
+        }
+
+        /* Reseteo básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--bg-white);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            background: transparent;
+        }
+
+        /* Navegación */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--bg-light);
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .hero-note {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            max-width: 900px;
+            height: 400px;
+            background-color: #E5E7EB;
+            margin: 40px auto 0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-weight: bold;
+        }
+
+        /* Secciones Generales */
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section {
+            padding: 80px 20px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-white);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        /* Cómo funciona (Pasos) */
+        .steps-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .step-number {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .step-content h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* Precios */
+        .pricing-section {
+            background-color: var(--bg-light);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--bg-white);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .pricing-list {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-list li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-gray);
+        }
+
+        /* FAQ */
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .faq-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111827;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        .footer-info {
+            color: #6B7280;
+            font-size: 12px;
+        }
+
+        /* Media Queries para Móviles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* En móvil se ocultaría, requiere JS para menú hamburguesa */
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+            }
+            .pricing-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">BaseNegocio</div>
+            <nav class="nav-links">
+                <a href="#funciones">Funciones</a>
+                <a href="#como-funciona">Cómo funciona</a>
+                <a href="#planes">Planes</a>
+                <a href="#dudas">Dudas</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="#" style="font-weight: 500; font-size: 15px;">¿Ya tenés cuenta? Ingresar</a>
+                <a href="#" class="btn btn-primary">Probar gratis</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-subtitle">BASENEGOCIO · DE RINCÓN DE IDEAS</div>
+                <h1>La base desde donde manejás todo tu negocio.</h1>
+                <p>Cotizá, organizá y vendé. Todo tu negocio en un solo lugar. Calculá tus precios, creá presupuestos, organizá clientes y pedidos, y compartí tu propio catálogo para vender.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" style="font-size: 18px; padding: 15px 30px;">Empezar prueba gratis de 21 días</a>
+                    <a href="#" class="btn btn-outline" style="font-size: 18px; padding: 15px 30px;">Ver cómo funciona</a>
+                </div>
+                <p class="hero-note">Dejás los datos de la tarjeta · no te cobramos nada por 21 días · cancelás cuando quieras</p>
+                
+                <div class="image-placeholder">
+                    [Imagen: BaseNegocio en la computadora y en el teléfono]
+                </div>
+            </div>
+        </section>
+
+        <!-- FUNCIONES -->
+        <section id="funciones" class="section">
+            <div class="container">
+                <span class="section-subtitle">LO QUE HACE POR VOS</span>
+                <h2 class="section-title">Tu Negocio, ordenado de punta a punta</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Costeo de productos</h3>
+                        <p>Ponés lo que te sale cada material, cuánto tardás y lo que querés ganar, y la app saca el precio por vos. Chau a esos días de vender casi sin ganancia.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Pedidos y estados</h3>
+                        <p>Sabés siempre en qué anda cada pedido, si lo estás preparando, si ya está listo o si lo entregaste.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Cobros y recibos</h3>
+                        <p>Anotás las señas y los pagos, y la app te lleva la cuenta de cuánto te deben. Por cada pago le pasás su recibo.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Presupuestos en PDF</h3>
+                        <p>Elegís a tu clienta, sumás los productos y te queda un PDF lindo con tu logo para mandarle por WhatsApp.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Catálogo público</h3>
+                        <p>Tu propia página con tus productos para pasar por Instagram o WhatsApp. Tus clientas miran y te arman el pedido ellas mismas.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Tu tablero</h3>
+                        <p>De un vistazo ves cómo venís en el mes y cuáles son los productos que más te conviene ofrecer.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CÓMO FUNCIONA -->
+        <section id="como-funciona" class="section" style="background-color: var(--bg-light);">
+            <div class="container">
+                <span class="section-subtitle">CÓMO FUNCIONA</span>
+                <h2 class="section-title">Arrancás hoy y en un ratito ya estás presupuestando</h2>
+                
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>ARMÁ TU NEGOCIO</h3>
+                            <p>CARGÁS UNA SOLA VEZ TU GASTOS, TUS MATERIALES Y TUS PRODUCTOS. DESPUÉS LA APP SE ACUERDA DE TODO POR VOS.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>PONE TUS PRECIOS</h3>
+                            <p>CALCULANDO LOS INSUMOS, TU HORA DE TRABAJO Y TUS GASTOS FIJOS. ¡LO HACE AUTOMÁTICAMENTE!</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>ARMA TU CATALOGO</h3>
+                            <p>CARGÁ LOS PRODUCTOS A TU CATÁLOGO, PERSONALIZALO CON TUS COLORES E INFORMACIÓN ¡Y LISTO! TUS CLIENTES LO PUEDEN VER SIEMPRE.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>PRESUPUESTÁ Y VENDÉ</h3>
+                            <p>HACÉ PRESUPUESTOS PROFESIONALES EN SEGUNDOS Y CON SOLO DOS CLIC.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>COBRÁ ORGANIZADA</h3>
+                            <p>LLEVÁ UN CONTROL DE TUS VENTAS Y DEL ESTADO DE TUS PEDIDOS. ADEMÁS, TENÉ UN REGISTRO DE TUS CLIENTES.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PLANES -->
+        <section id="planes" class="section pricing-section">
+            <div class="container">
+                <span class="section-subtitle">ELEGÍ TU PLAN</span>
+                <h2 class="section-title">Elegí el que te quede cómodo. Los primeros 21 días, gratis.</h2>
+                <p style="text-align: center; margin-bottom: 40px; color: var(--text-gray);">EN LOS DOS TENÉS TODO, NO HAY VERSIONES RECORTADAS. PROBÁS TRANQUILA Y, SI NO ES PARA VOS, CANCELÁS Y LISTO.</p>
+                
+                <div class="pricing-grid">
+                    <!-- Plan Mensual -->
+                    <div class="pricing-card">
+                        <h3>MENSUAL</h3>
+                        <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 15px;">PARA ARRANCAR Y PROBAR A TU RITMO.</p>
+                        <div class="pricing-price">US$ 15,99<span style="font-size: 16px; font-weight: normal;">/MES</span></div>
+                        <p style="font-size: 12px; color: var(--text-gray);">SE RENUEVA CADA MES.</p>
+                        
+                        <ul class="pricing-list">
+                            <li>✓ COSTEO, INSUMOS Y PRODUCTOS SIN LÍMITE</li>
+                            <li>✓ PRESUPUESTOS EN PDF CON TU MARCA</li>
+                            <li>✓ PEDIDOS, COBROS Y RECIBOS</li>
+                            <li>✓ CATÁLOGO ONLINE PARA COMPARTIR</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width: 100%;">Empezar prueba gratis de 21 días</a>
+                    </div>
+
+                    <!-- Plan Anual -->
+                    <div class="pricing-card" style="border: 2px solid var(--primary-color);">
+                        <h3>ANUAL</h3>
+                        <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 15px;">EL QUE MÁS CONVIENE: PAGÁS 10 MESES Y USÁS 12.</p>
+                        <div class="pricing-price">US$ 159<span style="font-size: 16px; font-weight: normal;">/AÑO</span></div>
+                        <p style="font-size: 12px; color: var(--text-gray);">SE RENUEVA CADA AÑO.</p>
+                        
+                        <ul class="pricing-list">
+                            <li>✓ COSTEO, INSUMOS Y PRODUCTOS SIN LÍMITE</li>
+                            <li>✓ PRESUPUESTOS EN PDF CON TU MARCA</li>
+                            <li>✓ PEDIDOS, COBROS Y RECIBOS</li>
+                            <li>✓ CATÁLOGO ONLINE PARA COMPARTIR</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary" style="width: 100%;">Empezar prueba gratis de 21 días</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DUDAS -->
+        <section id="dudas" class="section">
+            <div class="container">
+                <span class="section-subtitle">ANTES DE EMPEZAR</span>
+                <h2 class="section-title">Las dudas de siempre</h2>
+                
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>¿Sirve si recién empiezo?</h4>
+                        <p>Sobre todo ahí. Cuando recién arrancás es cuando más se regala trabajo sin darse cuenta. Empezás cargando un producto y sus materiales, y ya ves si el precio que tenías en la cabeza te deja algo o no.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>¿En qué países funciona?</h4>
+                        <p>En cualquiera. La app trabaja con la moneda que elegís al configurar tu negocio. Y la suscripción se cobra en la moneda de tu país.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>¿Mis clientas ven mis costos o mi ganancia?</h4>
+                        <p>No. Tus costos, tus horas y tu ganancia son tuyos y no salen de tu cuenta. En el presupuesto y en el catálogo tu clienta ve el precio final y nada más.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>¿Puedo cancelar cuando quiera?</h4>
+                        <p>Sí, sola y desde la app, en “Mi suscripción”. No hay que mandar un mail ni pedir permiso. Y seguís usando todo hasta el último día que tenés pago.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Baja de servicio</a>
+                <a href="#">Botón de arrepentimiento</a>
+                <a href="#">Privacidad</a>
+            </div>
+            <div class="footer-info">
+                <p>IDEAS DESDE EL RINCÓN S.A.S. · CUIT 30-71720082-5 · Av. Ricardo Rojas 6739, Depto. A · holi@rincondeideas.com</p>
+                <p style="margin-top: 10px;">La suscripción se renueva sola cada mes (o cada año) hasta que la canceles.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
