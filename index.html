@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control - BaseNegocio Clon</title>
+    <title>Panel de Control - Mi Negocio</title>
     <style>
         :root {
             --primary-color: #4F46E5;
@@ -20,101 +20,34 @@
             --success-hover: #059669;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; height: 100vh; background-color: var(--bg-light); color: var(--text-dark); }
 
         /* BARRA LATERAL */
-        .sidebar {
-            width: 250px;
-            background-color: var(--sidebar-bg);
-            color: white;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            border-bottom: 1px solid #374151;
-            text-align: center;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 20px 0;
-            flex-grow: 1;
-        }
-
-        .nav-menu li a {
-            display: block;
-            padding: 15px 20px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .nav-menu li a:hover, .nav-menu li a.active {
-            background-color: #374151;
-            color: var(--sidebar-hover);
-            border-left: 4px solid var(--primary-color);
-        }
+        .sidebar { width: 250px; background-color: var(--sidebar-bg); color: white; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 20px; font-size: 20px; font-weight: bold; border-bottom: 1px solid #374151; text-align: center; }
+        .nav-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+        .nav-menu li a { display: block; padding: 15px 20px; color: var(--sidebar-text); text-decoration: none; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .nav-menu li a:hover, .nav-menu li a.active { background-color: #374151; color: var(--sidebar-hover); border-left: 4px solid var(--primary-color); }
 
         /* CONTENIDO PRINCIPAL */
-        .main-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .top-header {
-            height: 70px;
-            background-color: var(--bg-white);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-        }
-
-        .content-area {
-            padding: 30px;
-        }
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .top-header { height: 70px; background-color: var(--bg-white); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; }
+        .content-area { padding: 30px; }
 
         .vista { display: none; animation: fadeIn 0.3s; }
         .vista.activa { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* TARJETAS Y FORMULARIOS */
-        .card {
-            background-color: var(--bg-white);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
+        .card { background-color: var(--bg-white); border-radius: 8px; border: 1px solid var(--border-color); padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .card-title { margin-bottom: 20px; font-size: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
         .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; }
 
-        .btn { padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; background-color: var(--primary-color); }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; background-color: var(--primary-color); text-align: center; }
         .btn:hover { background-color: var(--primary-hover); }
         .btn-success { background-color: var(--success-color); }
         .btn-success:hover { background-color: var(--success-hover); }
@@ -128,32 +61,20 @@
         .flex-row { display: flex; gap: 15px; }
         .flex-1 { flex: 1; }
 
-        /* LAYOUT DEL CATÁLOGO + CARRITO */
+        /* CATALOGO Y CARRITO */
         .catalogo-layout { display: flex; gap: 20px; align-items: flex-start; }
         .catalogo-main { flex: 2; }
         .carrito-side { flex: 1; background: white; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); position: sticky; top: 20px; }
-        
         .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
         .producto-card { border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: white; text-align: center; }
         .producto-precio { color: var(--primary-color); font-weight: bold; font-size: 18px; margin-top: 10px; }
-
         .carrito-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding: 10px 0; font-size: 14px; }
         .carrito-controles { display: flex; align-items: center; gap: 10px; }
         .btn-cantidad { width: 25px; height: 25px; border-radius: 50%; border: 1px solid var(--border-color); background: white; cursor: pointer; font-weight: bold; }
 
-        /* ESTILOS PARA IMPRESIÓN (PDF) */
-        @media print {
-            .sidebar, .top-header, .btn, .producto-card button { display: none !important; }
-            body { background: white; }
-            .main-content { overflow: visible; }
-            .card { border: none; box-shadow: none; }
-            .carrito-side { border: 2px solid black; }
-        }
-
-        @media (max-width: 768px) {
-            .catalogo-layout { flex-direction: column; }
-            .carrito-side { width: 100%; }
-        }
+        /* MODAL DE COBRO */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -164,7 +85,8 @@
         <ul class="nav-menu">
             <li><a id="nav-calculadora" class="active" onclick="cambiarVista('calculadora')">Calculadora de Costos</a></li>
             <li><a id="nav-productos" onclick="cambiarVista('productos')">Mis Productos</a></li>
-            <li><a id="nav-catalogo" onclick="cambiarVista('catalogo')">Catálogo Web y Ventas</a></li>
+            <li><a id="nav-pedidos" onclick="cambiarVista('pedidos')">Pedidos y Ventas</a></li>
+            <li><a id="nav-catalogo" onclick="cambiarVista('catalogo')">Catálogo Público</a></li>
             <li><a id="nav-configuracion" onclick="cambiarVista('configuracion')">Configuración</a></li>
         </ul>
     </nav>
@@ -182,34 +104,17 @@
             <div id="vista-calculadora" class="vista activa">
                 <div class="card" style="max-width: 600px;">
                     <h2 class="card-title">Nuevo Producto o Servicio</h2>
-                    <div class="form-group">
-                        <label>Nombre del Producto/Servicio</label>
-                        <input type="text" id="calc-nombre" placeholder="Ej: Viaje Larga Distancia / Torta / Mantenimiento">
+                    <div class="form-group"><label>Nombre</label><input type="text" id="calc-nombre" placeholder="Ej: Viaje Larga Distancia / Producto"></div>
+                    <div class="flex-row">
+                        <div class="form-group flex-1"><label>Insumos ($)</label><input type="number" id="calc-insumos" placeholder="0" oninput="calcular()"></div>
+                        <div class="form-group flex-1"><label>Gastos Fijos ($)</label><input type="number" id="calc-fijos" placeholder="0" oninput="calcular()"></div>
                     </div>
                     <div class="flex-row">
-                        <div class="form-group flex-1">
-                            <label>Costo de Insumos/Materiales ($)</label>
-                            <input type="number" id="calc-insumos" placeholder="0" oninput="calcular()">
-                        </div>
-                        <div class="form-group flex-1">
-                            <label>Gastos Fijos ($)</label>
-                            <input type="number" id="calc-fijos" placeholder="0" oninput="calcular()">
-                        </div>
-                    </div>
-                    <div class="flex-row">
-                        <div class="form-group flex-1">
-                            <label>Mano de Obra / Tiempo ($)</label>
-                            <input type="number" id="calc-mano" placeholder="0" oninput="calcular()">
-                        </div>
-                        <div class="form-group flex-1">
-                            <label>Ganancia (%)</label>
-                            <input type="number" id="calc-ganancia" value="30" oninput="calcular()">
-                        </div>
+                        <div class="form-group flex-1"><label>Mano de Obra ($)</label><input type="number" id="calc-mano" placeholder="0" oninput="calcular()"></div>
+                        <div class="form-group flex-1"><label>Ganancia (%)</label><input type="number" id="calc-ganancia" value="30" oninput="calcular()"></div>
                     </div>
                     <div style="background: var(--bg-light); padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <h3 style="display: flex; justify-content: space-between;">
-                            Precio Sugerido: <span id="calc-total" style="color: var(--primary-color);">$0.00</span>
-                        </h3>
+                        <h3 style="display: flex; justify-content: space-between;">Precio Sugerido: <span id="calc-total" style="color: var(--primary-color);">$0.00</span></h3>
                     </div>
                     <button class="btn" style="width: 100%; margin-top: 20px;" onclick="guardarProducto()">Guardar Producto</button>
                 </div>
@@ -220,255 +125,278 @@
                 <div class="card">
                     <h2 class="card-title">Listado de Productos</h2>
                     <table>
+                        <thead><tr><th>Nombre</th><th>Costo Base</th><th>Margen</th><th>Precio Final</th><th>Acción</th></tr></thead>
+                        <tbody id="tabla-productos-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VISTA 3: PEDIDOS Y VENTAS (¡NUEVO!) -->
+            <div id="vista-pedidos" class="vista">
+                <div class="card">
+                    <h2 class="card-title">Órdenes de Clientes</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 15px;">Aquí llegan los pedidos confirmados desde el catálogo.</p>
+                    
+                    <table>
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Costo Base</th>
-                                <th>Margen</th>
-                                <th>Precio Final</th>
-                                <th>Acción</th>
+                                <th>Fecha / ID</th>
+                                <th>Cliente</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Cobro</th>
                             </tr>
                         </thead>
-                        <tbody id="tabla-productos-body">
-                            <!-- Inyectado con JS -->
+                        <tbody id="tabla-pedidos-body">
+                            <tr><td colspan="5" style="text-align: center; color: gray;">Aún no hay pedidos registrados.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- VISTA 3: CATÁLOGO WEB Y VENTAS (CARRITO) -->
+            <!-- VISTA 4: CATÁLOGO WEB (PÚBLICO) -->
             <div id="vista-catalogo" class="vista">
                 <div class="catalogo-layout">
-                    <!-- Izquierda: Catálogo -->
                     <div class="catalogo-main card" style="background-color: #F9FAFB;">
                         <div style="text-align: center; margin-bottom: 20px;">
                             <h2 id="catalogo-titulo-empresa">Mi Negocio</h2>
-                            <p style="color: var(--text-gray);">Tus clientes verán los productos aquí</p>
+                            <p style="color: var(--text-gray);">Vista del cliente (Compartir enlace)</p>
                         </div>
-                        
-                        <div class="catalogo-grid" id="contenedor-catalogo">
-                            <p style="color: gray; grid-column: 1/-1; text-align: center;">Aún no tienes productos. Créalos en la Calculadora.</p>
-                        </div>
+                        <div class="catalogo-grid" id="contenedor-catalogo"></div>
                     </div>
 
-                    <!-- Derecha: Carrito de Compras -->
                     <div class="carrito-side">
-                        <h3 style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;">Pedido Actual</h3>
-                        
-                        <div id="lista-carrito">
-                            <p style="color: gray; font-size: 14px; text-align: center;">El carrito está vacío</p>
-                        </div>
-
+                        <h3 style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;">Tu Pedido</h3>
+                        <div id="lista-carrito"></div>
                         <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 15px;">
                             <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-bottom: 15px;">
-                                <span>Total:</span>
-                                <span id="total-carrito" style="color: var(--primary-color);">$0.00</span>
+                                <span>Total:</span><span id="total-carrito" style="color: var(--primary-color);">$0.00</span>
                             </div>
-
-                            <button class="btn btn-success" style="width: 100%; margin-bottom: 10px;" onclick="enviarPorWhatsApp()">📲 Enviar por WhatsApp</button>
-                            <button class="btn btn-outline" style="width: 100%;" onclick="imprimirPresupuesto()">📄 Guardar como PDF / Imprimir</button>
+                            <!-- BOTÓN PARA CONFIRMAR Y ENVIAR AL PANEL DE PEDIDOS -->
+                            <button class="btn btn-success" style="width: 100%; margin-bottom: 10px; font-size: 16px;" onclick="confirmarPedido()">🛒 Confirmar Pedido</button>
+                            <button class="btn btn-outline" style="width: 100%;" onclick="enviarPresupuesto()">📄 Enviar Presupuesto</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- VISTA 4: CONFIGURACIÓN -->
+            <!-- VISTA 5: CONFIGURACIÓN -->
             <div id="vista-configuracion" class="vista">
                 <div class="card" style="max-width: 500px;">
                     <h2 class="card-title">Datos del Negocio</h2>
-                    <div class="form-group">
-                        <label>Nombre de la Marca / Agencia</label>
-                        <input type="text" id="conf-nombre" value="Mi Negocio" oninput="actualizarNombreNegocio()">
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono de WhatsApp (Ej: 5491100000000)</label>
-                        <input type="text" id="conf-whatsapp" value="">
-                    </div>
-                    <div class="form-group">
-                        <label>Alias para cobros</label>
-                        <input type="text" value="naza.hernan">
-                    </div>
+                    <div class="form-group"><label>Nombre de la Marca</label><input type="text" id="conf-nombre" value="Mi Negocio" oninput="actualizarNombreNegocio()"></div>
+                    <div class="form-group"><label>Alias / CBU para cobros</label><input type="text" id="conf-alias" value="naza.hernan"></div>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- PROGRAMACIÓN DE LA LÓGICA -->
+    <!-- VENTANA MODAL PARA GENERAR COBRO -->
+    <div id="modal-cobro" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 5px;">Cobrar a <span id="modal-cliente" style="color: var(--primary-color);"></span></h2>
+            <p style="color: var(--text-gray); font-size: 14px;">Pedido #<span id="modal-id"></span></p>
+            
+            <div style="font-size: 32px; font-weight: bold; color: var(--text-dark); margin: 20px 0;">
+                $<span id="modal-total">0.00</span>
+            </div>
+
+            <!-- CÓDIGO QR GENERADO -->
+            <p style="font-size: 14px; font-weight: bold; margin-bottom: 10px;">Escanea para pagar (QR Dinámico)</p>
+            <img id="modal-qr" src="" alt="QR de Pago" style="width: 150px; height: 150px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; padding: 5px;">
+
+            <!-- DATOS DE TRANSFERENCIA BANCARIA -->
+            <div style="background: var(--bg-light); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                <p style="font-size: 13px; color: var(--text-gray); margin-bottom: 5px;">O transferencia bancaria:</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>Alias: <span id="modal-alias-text" style="color: var(--primary-color); font-size: 16px;"></span></strong>
+                    <button class="btn btn-outline" style="padding: 4px 8px; font-size: 12px;" onclick="copiarAlias()">Copiar</button>
+                </div>
+            </div>
+
+            <button class="btn btn-success" style="width: 100%; margin-bottom: 10px;" onclick="enviarLinkPagoWA()">📲 Enviar Link por WhatsApp</button>
+            <button class="btn btn-outline" style="width: 100%;" onclick="cerrarModalCobro()">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- PROGRAMACIÓN -->
     <script>
-        // 1. NAVEGACIÓN
         function cambiarVista(vistaDestino) {
             document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
             document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
             document.getElementById('vista-' + vistaDestino).classList.add('activa');
             document.getElementById('nav-' + vistaDestino).classList.add('active');
 
-            const titulos = {
-                'calculadora': 'Calculadora de Costos',
-                'productos': 'Mis Productos',
-                'catalogo': 'Catálogo y Presupuestos',
-                'configuracion': 'Configuración'
-            };
+            const titulos = { 'calculadora': 'Calculadora de Costos', 'productos': 'Mis Productos', 'pedidos': 'Gestión de Pedidos', 'catalogo': 'Catálogo Público', 'configuracion': 'Configuración' };
             document.getElementById('titulo-cabecera').innerText = titulos[vistaDestino];
         }
 
-        // 2. BASES DE DATOS TEMPORALES
+        // BASES DE DATOS
         let misProductos = [];
-        let carrito = []; // Memoria del pedido actual
+        let carrito = [];
+        let misPedidos = []; // ¡NUEVO! Aquí se guardan las órdenes
 
-        // 3. LÓGICA CALCULADORA Y GUARDADO
         function calcular() {
             let insumos = parseFloat(document.getElementById('calc-insumos').value) || 0;
             let fijos = parseFloat(document.getElementById('calc-fijos').value) || 0;
             let mano = parseFloat(document.getElementById('calc-mano').value) || 0;
             let ganancia = parseFloat(document.getElementById('calc-ganancia').value) || 0;
-
             let costoBase = insumos + fijos + mano;
             let precioFinal = costoBase + (costoBase * (ganancia / 100));
-
             document.getElementById('calc-total').innerText = '$' + precioFinal.toFixed(2);
             return { costoBase, precioFinal, ganancia };
         }
 
         function guardarProducto() {
             let nombre = document.getElementById('calc-nombre').value;
-            if(!nombre) { alert("Ponle un nombre al producto"); return; }
+            if(!nombre) { alert("Ponle un nombre"); return; }
             let calculos = calcular();
-
-            misProductos.push({ nombre: nombre, costoBase: calculos.costoBase, margen: calculos.ganancia, precioFinal: calculos.precioFinal });
-            
-            document.getElementById('calc-nombre').value = '';
-            document.getElementById('calc-insumos').value = '';
-            document.getElementById('calc-fijos').value = '';
-            document.getElementById('calc-mano').value = '';
-            calcular(); 
-
-            renderizarProductos();
-            cambiarVista('catalogo'); // Llevamos al usuario al catálogo para que vea su producto
+            misProductos.push({ nombre, costoBase: calculos.costoBase, margen: calculos.ganancia, precioFinal: calculos.precioFinal });
+            document.getElementById('calc-nombre').value = ''; document.getElementById('calc-insumos').value = '';
+            document.getElementById('calc-fijos').value = ''; document.getElementById('calc-mano').value = '';
+            calcular(); renderizarProductos();
         }
 
         function renderizarProductos() {
             let tbody = document.getElementById('tabla-productos-body');
             let catalogo = document.getElementById('contenedor-catalogo');
             tbody.innerHTML = ''; catalogo.innerHTML = '';
-
-            if(misProductos.length === 0) {
-                catalogo.innerHTML = '<p style="color: gray; grid-column: 1/-1; text-align: center;">Aún no tienes productos. Créalos en la Calculadora.</p>';
-                return;
-            }
+            if(misProductos.length === 0) { catalogo.innerHTML = '<p style="color: gray; grid-column: 1/-1;">Agrega productos en la Calculadora.</p>'; return; }
 
             misProductos.forEach((prod, index) => {
-                tbody.innerHTML += `<tr><td><strong>${prod.nombre}</strong></td><td>$${prod.costoBase.toFixed(2)}</td><td>${prod.margen}%</td><td style="color: var(--primary-color); font-weight: bold;">$${prod.precioFinal.toFixed(2)}</td><td><button style="border:none; background:none; color:red; cursor:pointer;" onclick="eliminarProducto(${index})">Eliminar</button></td></tr>`;
-
-                // AHORA EL BOTÓN AGREGA AL CARRITO
-                catalogo.innerHTML += `<div class="producto-card">
-                    <div style="background: #E5E7EB; height: 120px; border-radius: 4px; margin-bottom: 10px; display:flex; align-items:center; justify-content:center; color: gray;">📷</div>
-                    <h3>${prod.nombre}</h3>
-                    <div class="producto-precio">$${prod.precioFinal.toFixed(2)}</div>
-                    <button class="btn btn-success" style="margin-top:10px; width:100%;" onclick="agregarAlCarrito(${index})">+ Agregar</button>
-                </div>`;
+                tbody.innerHTML += `<tr><td><strong>${prod.nombre}</strong></td><td>$${prod.costoBase.toFixed(2)}</td><td>${prod.margen}%</td><td style="color: var(--primary-color); font-weight: bold;">$${prod.precioFinal.toFixed(2)}</td><td><button style="border:none; color:red; cursor:pointer;" onclick="misProductos.splice(${index},1); renderizarProductos();">Borrar</button></td></tr>`;
+                catalogo.innerHTML += `<div class="producto-card"><h3>${prod.nombre}</h3><div class="producto-precio">$${prod.precioFinal.toFixed(2)}</div><button class="btn btn-outline" style="margin-top:10px; width:100%; border-color:var(--primary-color); color:var(--primary-color);" onclick="agregarAlCarrito(${index})">Agregar al pedido</button></div>`;
             });
         }
 
-        function eliminarProducto(index) { misProductos.splice(index, 1); renderizarProductos(); }
-
-        // ==========================================
-        // 4. LÓGICA DEL CARRITO Y PRESUPUESTOS (NUEVO)
-        // ==========================================
-
-        function agregarAlCarrito(indexProducto) {
-            let producto = misProductos[indexProducto];
-            
-            // Buscar si ya está en el carrito
-            let itemExistente = carrito.find(item => item.nombre === producto.nombre);
-            
-            if(itemExistente) {
-                itemExistente.cantidad += 1; // Si existe, suma 1
-            } else {
-                carrito.push({ nombre: producto.nombre, precio: producto.precioFinal, cantidad: 1 }); // Si no, lo crea
-            }
-            
+        // CARRITO
+        function agregarAlCarrito(idx) {
+            let prod = misProductos[idx];
+            let existe = carrito.find(i => i.nombre === prod.nombre);
+            if(existe) existe.cantidad++; else carrito.push({ nombre: prod.nombre, precio: prod.precioFinal, cantidad: 1 });
             renderizarCarrito();
         }
 
-        function cambiarCantidad(indexCarrito, cambio) {
-            carrito[indexCarrito].cantidad += cambio;
-            if(carrito[indexCarrito].cantidad <= 0) {
-                carrito.splice(indexCarrito, 1); // Lo elimina si llega a 0
-            }
-            renderizarCarrito();
-        }
+        function cambiarCantidad(idx, val) { carrito[idx].cantidad += val; if(carrito[idx].cantidad <= 0) carrito.splice(idx,1); renderizarCarrito(); }
 
         function renderizarCarrito() {
             let lista = document.getElementById('lista-carrito');
             let totalVisual = document.getElementById('total-carrito');
             lista.innerHTML = '';
-            
+            if(carrito.length === 0) { lista.innerHTML = '<p style="color: gray; font-size: 14px; text-align: center;">Vacío</p>'; totalVisual.innerText = "$0.00"; return; }
+
             let total = 0;
-
-            if(carrito.length === 0) {
-                lista.innerHTML = '<p style="color: gray; font-size: 14px; text-align: center;">El carrito está vacío</p>';
-                totalVisual.innerText = "$0.00";
-                return;
-            }
-
-            carrito.forEach((item, index) => {
-                let subtotal = item.precio * item.cantidad;
-                total += subtotal;
-
-                lista.innerHTML += `
-                <div class="carrito-item">
-                    <div style="flex:1;">
-                        <strong>${item.nombre}</strong><br>
-                        <span style="color:gray; font-size:12px;">$${item.precio.toFixed(2)} c/u</span>
-                    </div>
-                    <div class="carrito-controles">
-                        <button class="btn-cantidad" onclick="cambiarCantidad(${index}, -1)">-</button>
-                        <span>${item.cantidad}</span>
-                        <button class="btn-cantidad" onclick="cambiarCantidad(${index}, 1)">+</button>
-                    </div>
-                    <div style="width: 70px; text-align:right; font-weight:bold;">$${subtotal.toFixed(2)}</div>
-                </div>`;
+            carrito.forEach((item, idx) => {
+                let sub = item.precio * item.cantidad; total += sub;
+                lista.innerHTML += `<div class="carrito-item"><div><strong>${item.nombre}</strong><br><span style="color:gray; font-size:12px;">$${item.precio.toFixed(2)} c/u</span></div><div class="carrito-controles"><button class="btn-cantidad" onclick="cambiarCantidad(${idx}, -1)">-</button><span>${item.cantidad}</span><button class="btn-cantidad" onclick="cambiarCantidad(${idx}, 1)">+</button></div><div style="font-weight:bold;">$${sub.toFixed(2)}</div></div>`;
             });
-
             totalVisual.innerText = "$" + total.toFixed(2);
         }
 
-        // ==========================================
-        // 5. EXPORTAR: WHATSAPP Y PDF (NUEVO)
-        // ==========================================
+        // ==============================================
+        // LÓGICA DE PEDIDOS Y COBROS (LO NUEVO)
+        // ==============================================
 
-        function enviarPorWhatsApp() {
+        function confirmarPedido() {
             if(carrito.length === 0) { alert("El carrito está vacío"); return; }
             
-            let nombreNegocio = document.getElementById('conf-nombre').value;
-            let numeroDestino = document.getElementById('conf-whatsapp').value; // Podrías poner tu número predeterminado aquí
+            // Simulamos que el cliente ingresa su nombre
+            let nombreCliente = prompt("Ingresa tu nombre para confirmar el pedido:");
+            if(!nombreCliente) return;
+
+            let total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            let idPedido = Math.floor(Math.random() * 90000) + 10000; // ID aleatorio de 5 dígitos
+
+            // Creamos el objeto del pedido
+            let nuevoPedido = {
+                id: idPedido,
+                fecha: new Date().toLocaleDateString(),
+                cliente: nombreCliente,
+                items: [...carrito], // Copiamos el carrito
+                total: total,
+                estado: 'Pendiente'
+            };
+
+            misPedidos.push(nuevoPedido);
+            carrito = []; // Vaciamos carrito
+            renderizarCarrito();
+            renderizarPedidos();
             
-            let mensaje = `¡Hola! Aquí tienes tu presupuesto de *${nombreNegocio}*:\n\n`;
+            alert("¡Pedido enviado exitosamente! El negocio lo revisará pronto.");
+            cambiarVista('pedidos'); // Llevamos a la pantalla de pedidos para que lo veas
+        }
+
+        function renderizarPedidos() {
+            let tbody = document.getElementById('tabla-pedidos-body');
+            tbody.innerHTML = '';
             
-            let total = 0;
-            carrito.forEach(item => {
-                let subtotal = item.precio * item.cantidad;
-                total += subtotal;
-                mensaje += `- ${item.cantidad}x ${item.nombre} ($${subtotal.toFixed(2)})\n`;
+            if(misPedidos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: gray;">Aún no hay pedidos registrados.</td></tr>';
+                return;
+            }
+
+            misPedidos.forEach((ped, index) => {
+                tbody.innerHTML += `<tr>
+                    <td>${ped.fecha}<br><small style="color:gray;">#${ped.id}</small></td>
+                    <td><strong>${ped.cliente}</strong><br><small style="color:gray;">${ped.items.length} productos</small></td>
+                    <td style="font-weight:bold;">$${ped.total.toFixed(2)}</td>
+                    <td><span style="background: #FEF3C7; color: #D97706; padding: 4px 8px; border-radius: 12px; font-size: 12px;">${ped.estado}</span></td>
+                    <td>
+                        <button class="btn btn-outline" style="font-size: 12px; padding: 6px 12px; border-color: var(--success-color); color: var(--success-color);" onclick="abrirModalCobro(${index})">Generar Link / QR</button>
+                    </td>
+                </tr>`;
             });
+        }
 
-            mensaje += `\n*Total a pagar: $${total.toFixed(2)}*\n\n`;
-            mensaje += `Muchas gracias por elegirnos.`;
+        // LÓGICA DE LA VENTANA DE COBRO
+        let pedidoActualParaCobrar = null;
 
-            // Codificamos el texto para la URL
-            let url = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensaje)}`;
+        function abrirModalCobro(index) {
+            let ped = misPedidos[index];
+            pedidoActualParaCobrar = ped;
+            let aliasText = document.getElementById('conf-alias').value;
+
+            // Rellenar datos en el modal
+            document.getElementById('modal-cliente').innerText = ped.cliente;
+            document.getElementById('modal-id').innerText = ped.id;
+            document.getElementById('modal-total').innerText = ped.total.toFixed(2);
+            document.getElementById('modal-alias-text').innerText = aliasText;
+
+            // Generar QR Dinámico usando una API gratuita
+            // Aquí simulamos un link de pago único para este pedido
+            let linkDePago = `https://pagos.minegocio.com/pagar/${ped.id}`;
+            let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(linkDePago)}`;
+            document.getElementById('modal-qr').src = qrUrl;
+
+            // Mostrar Modal
+            document.getElementById('modal-cobro').style.display = 'flex';
+        }
+
+        function cerrarModalCobro() {
+            document.getElementById('modal-cobro').style.display = 'none';
+        }
+
+        function copiarAlias() {
+            let alias = document.getElementById('modal-alias-text').innerText;
+            navigator.clipboard.writeText(alias);
+            alert("¡Alias copiado al portapapeles!");
+        }
+
+        function enviarLinkPagoWA() {
+            let ped = pedidoActualParaCobrar;
+            let aliasText = document.getElementById('conf-alias').value;
+            
+            let mensaje = `¡Hola ${ped.cliente}!\nTu pedido #${ped.id} está listo para ser abonado.\n\n`;
+            mensaje += `*Total a pagar: $${ped.total.toFixed(2)}*\n\n`;
+            mensaje += `Puedes transferir a este Alias:\n*${aliasText}*\n\n`;
+            mensaje += `Por favor envíame el comprobante por aquí. ¡Gracias!`;
+
+            let url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
         }
 
-        function imprimirPresupuesto() {
-            if(carrito.length === 0) { alert("Agrega productos para generar un presupuesto."); return; }
-            // La magia de CSS (@media print) hace que al imprimir solo se vea el diseño limpio
-            window.print();
-        }
-
         function actualizarNombreNegocio() { document.getElementById('catalogo-titulo-empresa').innerText = document.getElementById('conf-nombre').value; }
-
     </script>
 </body>
 </html>
